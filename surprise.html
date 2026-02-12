@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>💕 AR Valentine for Yiwen 💕</title>
+    <title>💕 For Yiwen 💕</title>
     <style>
         * {
             margin: 0;
@@ -186,31 +186,22 @@
     </style>
 </head>
 <body>
-    <!-- Instructions Overlay -->
+    <!-- Instructions Overlay - MYSTERIOUS, NO AR REVEAL -->
     <div class="overlay" id="overlay">
         <div class="heart-icon">💕</div>
-        <h1>AR Valentine's Card</h1>
-        <p>A special message awaits you...</p>
+        <h1>A Message For You</h1>
+        <p style="font-size: 1.1rem; margin: 20px 0;">Hey Yiwen...</p>
+        <p style="opacity: 0.9; line-height: 1.6;">I made something special just for you 💕<br>Are you ready to see it?</p>
         
-        <div class="instructions">
-            <li>Allow camera access when prompted</li>
-            <li>Point camera at the LOVE marker</li>
-            <li>Watch the magic appear! ✨</li>
-        </div>
+        <button class="start-btn" onclick="startAR()">Open My Heart 💝</button>
         
-        <p style="font-size: 0.8rem; margin: 15px 0; opacity: 0.9;">
-            📄 <a href="love-marker.html" style="color: #64b5f6;">View/Print the LOVE marker</a>
-        </p>
-        
-        <button class="start-btn" onclick="startAR()">Start AR Experience 📱</button>
-        
-        <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
-            Or <a href="index.html" style="color: #ff6b9d;">view non-AR version</a>
+        <p style="font-size: 0.7rem; margin-top: 40px; opacity: 0.5;">
+            (make sure to have the card ready)
         </p>
     </div>
 
-    <!-- Scan hint -->
-    <div class="scan-hint" id="scanHint">📷 Point camera at the LOVE marker</div>
+    <!-- Scan hint - only shows after they click -->
+    <div class="scan-hint" id="scanHint">📷 Point camera at the card</div>
 
     <!-- Music button -->
     <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
@@ -257,10 +248,9 @@
             sceneEl.setAttribute('renderer', 'logarithmicDepthBuffer: true; colorManagement: true;');
             sceneEl.setAttribute('vr-mode-ui', 'enabled: false');
             
-            // Custom LOVE marker (using pattern file)
+            // Use HIRO marker (most reliable - works on screen or printed)
             const marker = document.createElement('a-marker');
-            marker.setAttribute('type', 'pattern');
-            marker.setAttribute('url', 'markers/love.patt');
+            marker.setAttribute('preset', 'hiro');
             marker.setAttribute('smooth', 'true');
             marker.setAttribute('smoothCount', '5');
             marker.setAttribute('smoothTolerance', '0.01');
