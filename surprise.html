@@ -398,11 +398,12 @@
             
             // ===== AR CONTENT - Clean text-focused design =====
             const container = document.createElement('a-entity');
-            container.setAttribute('position', '0 0.3 0');
+            container.setAttribute('position', '0 0 0');
+            container.setAttribute('rotation', '-90 0 0');  // Stand upright facing camera
             
             // Main rotating group
             const mainGroup = document.createElement('a-entity');
-            mainGroup.setAttribute('animation', 'property: rotation; from: 0 -20 0; to: 0 20 0; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate');
+            mainGroup.setAttribute('animation', 'property: rotation; from: 0 0 -10; to: 0 0 10; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate');
             
             // Row 1: Heart symbols on top
             const heartsRow = document.createElement('a-text');
@@ -453,9 +454,9 @@
             
             container.appendChild(mainGroup);
             
-            // Background plane for contrast (semi-transparent)
+            // Background plane for contrast (behind the text)
             const bgPlane = document.createElement('a-plane');
-            bgPlane.setAttribute('position', '0 0.15 0');
+            bgPlane.setAttribute('position', '0 0.1 -0.05');
             bgPlane.setAttribute('width', '1.8');
             bgPlane.setAttribute('height', '1.4');
             bgPlane.setAttribute('color', '#1a0a1a');
