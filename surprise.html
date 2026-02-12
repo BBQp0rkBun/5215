@@ -4,54 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>💕 For Yiwen 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
-            background: #000;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
         }
 
-        /* Loading/Instructions overlay */
-        .overlay {
+        /* Step containers */
+        .step {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
-            z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
             color: white;
-            transition: opacity 0.5s;
+            transition: opacity 0.8s, transform 0.8s;
+            z-index: 100;
         }
 
-        .overlay.hidden {
+        .step.hidden {
             opacity: 0;
             pointer-events: none;
-        }
-
-        .overlay h1 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #ff6b9d;
-        }
-
-        .overlay p {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            line-height: 1.6;
-            max-width: 350px;
+            transform: scale(0.9);
         }
 
         .heart-icon {
@@ -65,379 +50,273 @@
             50% { transform: scale(1.15); }
         }
 
-        .start-btn {
+        h1 {
+            font-size: 1.6rem;
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 10px 0;
+            max-width: 320px;
+        }
+
+        .btn {
             background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 18px 40px;
             font-size: 1.1rem;
             border-radius: 30px;
             cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+            margin-top: 30px;
+            box-shadow: 0 4px 25px rgba(255, 107, 157, 0.5);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .start-btn:hover {
+        .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 30px rgba(255, 107, 157, 0.6);
+            box-shadow: 0 6px 35px rgba(255, 107, 157, 0.7);
         }
 
-        .instructions {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
+        .btn.blue {
+            background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+            box-shadow: 0 4px 25px rgba(100, 181, 246, 0.5);
+        }
+
+        .btn.green {
+            background: linear-gradient(135deg, #81c784 0%, #388e3c 100%);
+            box-shadow: 0 4px 25px rgba(129, 199, 132, 0.5);
+        }
+
+        /* Step 2: Big text reveal */
+        .big-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            color: #ff6b9d;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.8);
+            animation: textGlow 2s ease-in-out infinite alternate;
             margin: 20px 0;
-            max-width: 350px;
         }
 
-        .instructions li {
+        .name-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.2rem;
+            color: #64b5f6;
+            text-shadow: 0 0 30px rgba(100, 181, 246, 0.8);
+            animation: textGlow 2s ease-in-out infinite alternate;
+            margin: 15px 0;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 20px currentColor; }
+            to { text-shadow: 0 0 40px currentColor, 0 0 60px currentColor; }
+        }
+
+        /* Step 3: Code animation */
+        .code-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #4fc3f7;
+            border-radius: 15px;
+            padding: 25px 35px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #4fc3f7;
             text-align: left;
-            margin: 10px 0;
-            list-style: none;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
         }
 
-        .instructions li::before {
-            content: "💕 ";
+        .code-line {
+            opacity: 0;
+            animation: typeIn 0.5s ease forwards;
         }
 
-        /* Music button */
-        .music-btn {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.5);
-            display: none;
+        .code-line:nth-child(1) { animation-delay: 0.3s; }
+        .code-line:nth-child(2) { animation-delay: 0.8s; }
+        .code-line:nth-child(3) { animation-delay: 1.3s; }
+        .code-line:nth-child(4) { animation-delay: 1.8s; }
+        .code-line:nth-child(5) { animation-delay: 2.3s; }
+
+        @keyframes typeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .music-btn.visible {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #c586c0; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
 
-        .music-btn.playing {
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.5);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        /* AR scanning hint */
-        .scan-hint {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            z-index: 100;
-            display: none;
-        }
-
-        .scan-hint.visible {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Fallback button */
-        .fallback-btn {
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            padding: 10px 20px;
-            font-size: 0.8rem;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            display: none;
-        }
-
-        .fallback-btn.visible {
-            display: block;
-        }
-
-        /* A-Frame scene */
-        a-scene {
+        /* Hearts floating in background */
+        .floating-hearts {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
         }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp 4s ease-in infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Step 4: Final message */
+        .final-message {
+            font-size: 1.2rem;
+            line-height: 2;
+            margin: 20px 0;
+        }
+
+        .music-hint {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 200;
+            display: none;
+        }
+
+        .music-hint.visible { display: block; }
     </style>
 </head>
 <body>
-    <!-- Instructions Overlay - MYSTERIOUS, NO AR REVEAL -->
-    <div class="overlay" id="overlay">
+    <!-- Floating hearts background -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- STEP 1: Introduction -->
+    <div class="step" id="step1">
         <div class="heart-icon">💕</div>
         <h1>A Message For You</h1>
-        <p style="font-size: 1.1rem; margin: 20px 0;">Hey Yiwen...</p>
-        <p style="opacity: 0.9; line-height: 1.6;">I made something special just for you 💕<br>Are you ready to see it?</p>
-        
-        <button class="start-btn" onclick="startAR()">Open My Heart 💝</button>
-        
-        <p style="font-size: 0.7rem; margin-top: 40px; opacity: 0.5;">
-            (make sure to have the card ready)
+        <p style="font-size: 1.2rem;">Hey Yiwen...</p>
+        <p style="opacity: 0.8;">I made something special just for you</p>
+        <button class="btn" onclick="goToStep(2)">What is it? 👀</button>
+    </div>
+
+    <!-- STEP 2: I Love You reveal -->
+    <div class="step hidden" id="step2">
+        <div class="heart-icon">💖</div>
+        <div class="big-text">I LOVE YOU</div>
+        <div class="name-text">YIWEN</div>
+        <p style="margin-top: 20px; opacity: 0.9;">You're the best thing that ever happened to me 💕</p>
+        <button class="btn blue" onclick="goToStep(3)">Wait, there's more... 💭</button>
+    </div>
+
+    <!-- STEP 3: Code reveal -->
+    <div class="step hidden" id="step3">
+        <p style="margin-bottom: 10px; opacity: 0.7;">As a coder, I wrote this for you:</p>
+        <div class="code-box">
+            <div class="code-line"><span class="code-comment">// My love for you</span></div>
+            <div class="code-line"><span class="code-keyword">while</span> (<span class="code-keyword">true</span>) {</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="code-function">love</span>(yiwen);</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="code-comment">// infinite loop 💕</span></div>
+            <div class="code-line">}</div>
+        </div>
+        <p style="margin-top: 15px;">My love for you is like an infinite loop...<br><strong style="color: #ff6b9d;">It never ends! 💕</strong></p>
+        <button class="btn green" onclick="goToStep(4)">One more surprise! ✨</button>
+    </div>
+
+    <!-- STEP 4: Final message + link to 3D experience -->
+    <div class="step hidden" id="step4">
+        <div class="heart-icon">🎁</div>
+        <h1>Happy Valentine's Day!</h1>
+        <p class="final-message">
+            I built a whole 3D world<br>
+            just for you 💕<br>
+            <span style="color: #64b5f6;">Click below to explore it!</span>
+        </p>
+        <button class="btn" onclick="goToExperience()">Enter My Heart 💝</button>
+        <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.6;">
+            🎵 Turn on sound for the best experience!
         </p>
     </div>
 
-    <!-- Scan hint - only shows after they click -->
-    <div class="scan-hint" id="scanHint">📷 Point camera at the card</div>
-
-    <!-- Music button -->
-    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-        🎵 Play Our Song
-    </button>
-
-    <!-- Fallback button -->
-    <button class="fallback-btn" id="fallbackBtn" onclick="window.location.href='index.html'">
-        View 3D Version Instead
-    </button>
+    <!-- Music hint -->
+    <div class="music-hint" id="musicHint">🎵 Music playing...</div>
 
     <!-- Audio -->
     <audio id="bgMusic" loop preload="auto">
         <source src="song/就是会喜欢你.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- A-Frame + AR.js (uses HIRO marker - no custom file needed!) -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    
     <script>
-        let arStarted = false;
-        let isPlaying = false;
-        const music = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
+        let currentStep = 1;
+        const totalSteps = 4;
         
-        function startAR() {
-            document.getElementById('overlay').classList.add('hidden');
-            document.getElementById('scanHint').classList.add('visible');
-            document.getElementById('musicBtn').classList.add('visible');
-            document.getElementById('fallbackBtn').classList.add('visible');
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const hearts = ['💕', '💗', '💖', '❤️', '💓'];
             
-            if (!arStarted) {
-                initARScene();
-                arStarted = true;
-            }
-        }
-        
-        function initARScene() {
-            // Create the AR scene with AR.js
-            const sceneEl = document.createElement('a-scene');
-            sceneEl.setAttribute('embedded', '');
-            sceneEl.setAttribute('arjs', 'sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;');
-            sceneEl.setAttribute('renderer', 'logarithmicDepthBuffer: true; colorManagement: true;');
-            sceneEl.setAttribute('vr-mode-ui', 'enabled: false');
-            
-            // Use HIRO marker (most reliable - works on screen or printed)
-            const marker = document.createElement('a-marker');
-            marker.setAttribute('preset', 'hiro');
-            marker.setAttribute('smooth', 'true');
-            marker.setAttribute('smoothCount', '5');
-            marker.setAttribute('smoothTolerance', '0.01');
-            marker.setAttribute('smoothThreshold', '5');
-            
-            // Events when marker is found/lost
-            marker.addEventListener('markerFound', () => {
-                document.getElementById('scanHint').textContent = '💕 Love found!';
-                document.getElementById('scanHint').style.background = 'rgba(233, 30, 99, 0.9)';
-            });
-            
-            marker.addEventListener('markerLost', () => {
-                document.getElementById('scanHint').textContent = '📷 Point at the HIRO marker';
-                document.getElementById('scanHint').style.background = 'rgba(0, 0, 0, 0.7)';
-            });
-            
-            // ======== AR CONTENT - 3D HEARTS & TEXT ========
-            
-            // 3D container
-            const container = document.createElement('a-entity');
-            container.setAttribute('position', '0 0 0');
-            
-            // ===== FLOATING 3D HEART SPHERES =====
-            // Use colored spheres as "hearts" since emojis don't render well
-            const heartColors = ['#ff6b9d', '#ff4081', '#e91e63', '#f50057', '#ff80ab', '#ff1744'];
-            
-            for (let i = 0; i < 25; i++) {
-                const heart = document.createElement('a-sphere');
-                const x = (Math.random() - 0.5) * 2;
-                const startY = Math.random() * 1.5;
-                const z = (Math.random() - 0.5) * 1.5;
-                const size = 0.05 + Math.random() * 0.08;
-                const duration = 2000 + Math.random() * 2000;
-                const delay = Math.random() * 2000;
-                const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-                
-                heart.setAttribute('position', `${x} ${startY} ${z}`);
-                heart.setAttribute('radius', size);
-                heart.setAttribute('color', color);
-                heart.setAttribute('material', 'shader: flat;');
-                // Float up animation
-                heart.setAttribute('animation', `property: position; from: ${x} -0.3 ${z}; to: ${x} 2 ${z}; dur: ${duration}; easing: linear; loop: true; delay: ${delay}`);
-                // Pulse
-                heart.setAttribute('animation__pulse', `property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 400; easing: easeInOutSine; loop: true; dir: alternate`);
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 4 + 's';
+                heart.style.fontSize = (1.5 + Math.random() * 1.5) + 'rem';
                 container.appendChild(heart);
             }
-            
-            // ===== BIG CENTER HEART (using two spheres + cone) =====
-            const bigHeartGroup = document.createElement('a-entity');
-            bigHeartGroup.setAttribute('position', '0 1.2 0');
-            bigHeartGroup.setAttribute('scale', '2 2 2');
-            bigHeartGroup.setAttribute('animation', 'property: scale; from: 1.8 1.8 1.8; to: 2.2 2.2 2.2; dur: 500; easing: easeInOutSine; loop: true; dir: alternate');
-            bigHeartGroup.setAttribute('animation__rotate', 'property: rotation; from: 0 -15 0; to: 0 15 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
-            
-            // Left sphere of heart
-            const leftSphere = document.createElement('a-sphere');
-            leftSphere.setAttribute('position', '-0.08 0.05 0');
-            leftSphere.setAttribute('radius', '0.1');
-            leftSphere.setAttribute('color', '#ff1744');
-            leftSphere.setAttribute('material', 'shader: flat;');
-            bigHeartGroup.appendChild(leftSphere);
-            
-            // Right sphere of heart
-            const rightSphere = document.createElement('a-sphere');
-            rightSphere.setAttribute('position', '0.08 0.05 0');
-            rightSphere.setAttribute('radius', '0.1');
-            rightSphere.setAttribute('color', '#ff1744');
-            rightSphere.setAttribute('material', 'shader: flat;');
-            bigHeartGroup.appendChild(rightSphere);
-            
-            // Bottom cone of heart
-            const heartCone = document.createElement('a-cone');
-            heartCone.setAttribute('position', '0 -0.08 0');
-            heartCone.setAttribute('rotation', '180 0 0');
-            heartCone.setAttribute('radius-bottom', '0.15');
-            heartCone.setAttribute('radius-top', '0');
-            heartCone.setAttribute('height', '0.2');
-            heartCone.setAttribute('color', '#ff1744');
-            heartCone.setAttribute('material', 'shader: flat;');
-            bigHeartGroup.appendChild(heartCone);
-            
-            container.appendChild(bigHeartGroup);
-            
-            // ===== "I LOVE YOU" TEXT =====
-            const loveText = document.createElement('a-text');
-            loveText.setAttribute('value', 'I LOVE YOU');
-            loveText.setAttribute('position', '0 0.6 0');
-            loveText.setAttribute('color', '#ff6b9d');
-            loveText.setAttribute('scale', '1.2 1.2 1.2');
-            loveText.setAttribute('align', 'center');
-            loveText.setAttribute('font', 'mozillavr');
-            loveText.setAttribute('animation', 'property: position; to: 0 0.7 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
-            container.appendChild(loveText);
-            
-            // ===== "YIWEN" TEXT (sky blue) =====
-            const nameText = document.createElement('a-text');
-            nameText.setAttribute('value', 'YIWEN');
-            nameText.setAttribute('position', '0 0.2 0');
-            nameText.setAttribute('color', '#64b5f6');
-            nameText.setAttribute('scale', '2 2 2');
-            nameText.setAttribute('align', 'center');
-            nameText.setAttribute('font', 'mozillavr');
-            nameText.setAttribute('animation', 'property: scale; from: 1.9 1.9 1.9; to: 2.1 2.1 2.1; dur: 800; easing: easeInOutSine; loop: true; dir: alternate');
-            container.appendChild(nameText);
-            
-            // ===== CODE MESSAGE =====
-            const codeText = document.createElement('a-text');
-            codeText.setAttribute('value', 'while(true) { love++; }');
-            codeText.setAttribute('position', '0 -0.1 0');
-            codeText.setAttribute('color', '#4fc3f7');
-            codeText.setAttribute('scale', '0.5 0.5 0.5');
-            codeText.setAttribute('align', 'center');
-            codeText.setAttribute('font', 'mozillavr');
-            container.appendChild(codeText);
-            
-            // ===== HAPPY VALENTINE'S =====
-            const subtitle = document.createElement('a-text');
-            subtitle.setAttribute('value', 'Happy Valentines Day');
-            subtitle.setAttribute('position', '0 -0.35 0');
-            subtitle.setAttribute('color', '#ffffff');
-            subtitle.setAttribute('scale', '0.4 0.4 0.4');
-            subtitle.setAttribute('align', 'center');
-            subtitle.setAttribute('font', 'mozillavr');
-            container.appendChild(subtitle);
-            
-            // ===== RING OF SMALL HEARTS =====
-            for (let i = 0; i < 10; i++) {
-                const angle = (i / 10) * Math.PI * 2;
-                const radius = 0.8;
-                const x = Math.cos(angle) * radius;
-                const z = Math.sin(angle) * radius;
-                const y = 0.5 + Math.sin(angle * 2) * 0.2;
-                
-                const orbitHeart = document.createElement('a-sphere');
-                orbitHeart.setAttribute('position', `${x} ${y} ${z}`);
-                orbitHeart.setAttribute('radius', '0.05');
-                orbitHeart.setAttribute('color', i % 2 === 0 ? '#ff6b9d' : '#ff4081');
-                orbitHeart.setAttribute('material', 'shader: flat;');
-                orbitHeart.setAttribute('animation', `property: position; to: ${x} ${y + 0.15} ${z}; dur: ${800 + i * 100}; easing: easeInOutSine; loop: true; dir: alternate`);
-                container.appendChild(orbitHeart);
-            }
-            
-            // ===== SPARKLE PARTICLES =====
-            for (let i = 0; i < 15; i++) {
-                const sparkle = document.createElement('a-sphere');
-                const x = (Math.random() - 0.5) * 2;
-                const y = Math.random() * 1.5;
-                const z = (Math.random() - 0.5) * 1;
-                const size = 0.02 + Math.random() * 0.03;
-                
-                sparkle.setAttribute('position', `${x} ${y} ${z}`);
-                sparkle.setAttribute('radius', size);
-                sparkle.setAttribute('color', '#ffffff');
-                sparkle.setAttribute('material', 'shader: flat;');
-                sparkle.setAttribute('animation', `property: position; to: ${x} ${y + 0.3} ${z}; dur: ${1500 + Math.random() * 1500}; easing: easeInOutSine; loop: true; dir: alternate`);
-                sparkle.setAttribute('animation__scale', `property: scale; from: 0.5 0.5 0.5; to: 1.5 1.5 1.5; dur: ${400 + Math.random() * 400}; loop: true; dir: alternate`);
-                container.appendChild(sparkle);
-            }
-            
-            marker.appendChild(container);
-            sceneEl.appendChild(marker);
-            
-            // Camera
-            const camera = document.createElement('a-entity');
-            camera.setAttribute('camera', '');
-            sceneEl.appendChild(camera);
-            
-            document.body.appendChild(sceneEl);
         }
         
-        function toggleMusic() {
-            if (isPlaying) {
-                music.pause();
-                musicBtn.innerHTML = '🎵 Play Our Song';
-                musicBtn.classList.remove('playing');
-                isPlaying = false;
-            } else {
-                music.play().then(() => {
-                    musicBtn.innerHTML = '🎵 Playing...';
-                    musicBtn.classList.add('playing');
-                    isPlaying = true;
-                }).catch(err => {
-                    console.log('Audio error:', err);
-                    musicBtn.innerHTML = '🎵 Tap Again';
-                });
+        function goToStep(step) {
+            // Hide current step
+            document.getElementById('step' + currentStep).classList.add('hidden');
+            
+            // Show new step
+            currentStep = step;
+            document.getElementById('step' + currentStep).classList.remove('hidden');
+            
+            // Start music on step 2
+            if (step === 2) {
+                playMusic();
             }
         }
+        
+        function playMusic() {
+            const music = document.getElementById('bgMusic');
+            music.play().then(() => {
+                document.getElementById('musicHint').classList.add('visible');
+                setTimeout(() => {
+                    document.getElementById('musicHint').classList.remove('visible');
+                }, 3000);
+            }).catch(err => {
+                console.log('Audio autoplay blocked');
+            });
+        }
+        
+        function goToExperience() {
+            // Go to the 3D experience
+            window.location.href = 'index.html';
+        }
+        
+        // Initialize
+        createFloatingHearts();
     </script>
 </body>
 </html>
