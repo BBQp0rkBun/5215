@@ -410,87 +410,72 @@
                 document.getElementById('arHint').textContent = '📷 Point at the card!';
             });
             
-            // ===== AR CONTENT =====
+            // ===== AR CONTENT - Clean text-focused design =====
             const container = document.createElement('a-entity');
-            container.setAttribute('position', '0 0 0');
+            container.setAttribute('position', '0 0.3 0');
             
-            // Big 3D heart shape
-            const heartGroup = document.createElement('a-entity');
-            heartGroup.setAttribute('position', '0 0.8 0');
-            heartGroup.setAttribute('scale', '1.5 1.5 1.5');
-            heartGroup.setAttribute('animation', 'property: scale; from: 1.3 1.3 1.3; to: 1.7 1.7 1.7; dur: 600; easing: easeInOutSine; loop: true; dir: alternate');
-            heartGroup.setAttribute('animation__rotate', 'property: rotation; from: 0 -15 0; to: 0 15 0; dur: 2000; easing: easeInOutSine; loop: true; dir: alternate');
+            // Main rotating group
+            const mainGroup = document.createElement('a-entity');
+            mainGroup.setAttribute('animation', 'property: rotation; from: 0 -20 0; to: 0 20 0; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate');
             
-            // Heart spheres
-            const leftBall = document.createElement('a-sphere');
-            leftBall.setAttribute('position', '-0.12 0.08 0');
-            leftBall.setAttribute('radius', '0.15');
-            leftBall.setAttribute('color', '#ff1744');
-            heartGroup.appendChild(leftBall);
+            // Row 1: Heart symbols on top
+            const heartsRow = document.createElement('a-text');
+            heartsRow.setAttribute('value', '<3  <3  <3');
+            heartsRow.setAttribute('position', '0 0.6 0.1');
+            heartsRow.setAttribute('color', '#ff1744');
+            heartsRow.setAttribute('scale', '0.7 0.7 0.7');
+            heartsRow.setAttribute('align', 'center');
+            heartsRow.setAttribute('animation', 'property: scale; from: 0.6 0.6 0.6; to: 0.8 0.8 0.8; dur: 500; loop: true; dir: alternate');
+            mainGroup.appendChild(heartsRow);
             
-            const rightBall = document.createElement('a-sphere');
-            rightBall.setAttribute('position', '0.12 0.08 0');
-            rightBall.setAttribute('radius', '0.15');
-            rightBall.setAttribute('color', '#ff1744');
-            heartGroup.appendChild(rightBall);
-            
-            const cone = document.createElement('a-cone');
-            cone.setAttribute('position', '0 -0.12 0');
-            cone.setAttribute('rotation', '180 0 0');
-            cone.setAttribute('radius-bottom', '0.22');
-            cone.setAttribute('radius-top', '0');
-            cone.setAttribute('height', '0.3');
-            cone.setAttribute('color', '#ff1744');
-            heartGroup.appendChild(cone);
-            
-            container.appendChild(heartGroup);
-            
-            // "I LOVE YOU" text
+            // Row 2: "I LOVE YOU" 
             const loveText = document.createElement('a-text');
             loveText.setAttribute('value', 'I LOVE YOU');
-            loveText.setAttribute('position', '0 0.35 0');
+            loveText.setAttribute('position', '0 0.35 0.1');
             loveText.setAttribute('color', '#ff6b9d');
-            loveText.setAttribute('scale', '0.8 0.8 0.8');
+            loveText.setAttribute('scale', '0.9 0.9 0.9');
             loveText.setAttribute('align', 'center');
-            loveText.setAttribute('font', 'mozillavr');
-            container.appendChild(loveText);
+            mainGroup.appendChild(loveText);
             
-            // "YIWEN" text
+            // Row 3: "YIWEN" - Big and prominent
             const nameText = document.createElement('a-text');
             nameText.setAttribute('value', 'YIWEN');
-            nameText.setAttribute('position', '0 0.1 0');
+            nameText.setAttribute('position', '0 0.05 0.1');
             nameText.setAttribute('color', '#64b5f6');
-            nameText.setAttribute('scale', '1.2 1.2 1.2');
+            nameText.setAttribute('scale', '1.4 1.4 1.4');
             nameText.setAttribute('align', 'center');
-            nameText.setAttribute('font', 'mozillavr');
-            nameText.setAttribute('animation', 'property: scale; from: 1.1 1.1 1.1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate');
-            container.appendChild(nameText);
+            nameText.setAttribute('animation', 'property: position; from: 0 0.02 0.1; to: 0 0.08 0.1; dur: 800; loop: true; dir: alternate');
+            mainGroup.appendChild(nameText);
             
-            // Code text
+            // Row 4: Code line
             const codeText = document.createElement('a-text');
             codeText.setAttribute('value', 'while(true) { love++; }');
-            codeText.setAttribute('position', '0 -0.15 0');
+            codeText.setAttribute('position', '0 -0.25 0.1');
             codeText.setAttribute('color', '#4fc3f7');
-            codeText.setAttribute('scale', '0.4 0.4 0.4');
+            codeText.setAttribute('scale', '0.45 0.45 0.45');
             codeText.setAttribute('align', 'center');
-            codeText.setAttribute('font', 'mozillavr');
-            container.appendChild(codeText);
+            mainGroup.appendChild(codeText);
             
-            // Floating small hearts around
-            for (let i = 0; i < 8; i++) {
-                const angle = (i / 8) * Math.PI * 2;
-                const radius = 0.5;
-                const x = Math.cos(angle) * radius;
-                const z = Math.sin(angle) * radius;
-                const y = 0.4 + Math.sin(angle) * 0.2;
-                
-                const smallHeart = document.createElement('a-sphere');
-                smallHeart.setAttribute('position', `${x} ${y} ${z}`);
-                smallHeart.setAttribute('radius', '0.04');
-                smallHeart.setAttribute('color', i % 2 === 0 ? '#ff6b9d' : '#ff4081');
-                smallHeart.setAttribute('animation', `property: position; to: ${x} ${y + 0.1} ${z}; dur: ${800 + i * 100}; easing: easeInOutSine; loop: true; dir: alternate`);
-                container.appendChild(smallHeart);
-            }
+            // Row 5: More hearts at bottom
+            const heartsBottom = document.createElement('a-text');
+            heartsBottom.setAttribute('value', '<3  <3  <3');
+            heartsBottom.setAttribute('position', '0 -0.45 0.1');
+            heartsBottom.setAttribute('color', '#ff4081');
+            heartsBottom.setAttribute('scale', '0.5 0.5 0.5');
+            heartsBottom.setAttribute('animation', 'property: scale; from: 0.45 0.45 0.45; to: 0.55 0.55 0.55; dur: 600; loop: true; dir: alternate');
+            mainGroup.appendChild(heartsBottom);
+            
+            container.appendChild(mainGroup);
+            
+            // Background plane for contrast (semi-transparent)
+            const bgPlane = document.createElement('a-plane');
+            bgPlane.setAttribute('position', '0 0.15 0');
+            bgPlane.setAttribute('width', '1.8');
+            bgPlane.setAttribute('height', '1.4');
+            bgPlane.setAttribute('color', '#1a0a1a');
+            bgPlane.setAttribute('opacity', '0.7');
+            bgPlane.setAttribute('material', 'shader: flat');
+            container.appendChild(bgPlane);
             
             marker.appendChild(container);
             sceneEl.appendChild(marker);
