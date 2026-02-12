@@ -294,7 +294,7 @@
 
     <!-- AR UI elements (shown after AR starts) -->
     <div class="ar-hint" id="arHint">📷 Point at the card!</div>
-    <button class="ar-btn" id="arMusicBtn" onclick="toggleMusic()">🎵 Play Song</button>
+    <button class="ar-btn" id="arNextBtn" onclick="goToFull3D()">See Full 3D Experience ✨</button>
 
     <!-- Music hint -->
     <div class="music-hint" id="musicHint">🎵 Music playing...</div>
@@ -310,7 +310,6 @@
 
     <script>
         let currentStep = 1;
-        let isPlaying = false;
         let arStarted = false;
         
         // Create floating hearts
@@ -355,22 +354,9 @@
             });
         }
         
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const btn = document.getElementById('arMusicBtn');
-            
-            if (isPlaying) {
-                music.pause();
-                btn.textContent = '🎵 Play Song';
-                isPlaying = false;
-            } else {
-                music.play().then(() => {
-                    btn.textContent = '🎵 Playing...';
-                    isPlaying = true;
-                }).catch(() => {
-                    btn.textContent = '🎵 Tap Again';
-                });
-            }
+        function goToFull3D() {
+            // Go to the full 3D experience
+            window.location.href = 'index.html';
         }
         
         function startAR() {
@@ -380,7 +366,7 @@
             
             // Show AR UI
             document.getElementById('arHint').classList.add('visible');
-            document.getElementById('arMusicBtn').classList.add('visible');
+            document.getElementById('arNextBtn').classList.add('visible');
             
             if (!arStarted) {
                 initARScene();
