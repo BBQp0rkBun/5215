@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>💕 AR Valentine for Yiwen 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Loading/Instructions overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            transition: opacity 0.5s;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .overlay h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+
+        .overlay p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            max-width: 350px;
+        }
+
+        .heart-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            max-width: 350px;
+        }
+
+        .instructions li {
+            text-align: left;
+            margin: 10px 0;
+            list-style: none;
+        }
+
+        .instructions li::before {
+            content: "💕 ";
+        }
+
+        /* Music button */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.5);
+            display: none;
+        }
+
+        .music-btn.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .music-btn.playing {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* AR scanning hint */
+        .scan-hint {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 100;
+            display: none;
+        }
+
+        .scan-hint.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Fallback button */
+        .fallback-btn {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            display: none;
+        }
+
+        .fallback-btn.visible {
+            display: block;
+        }
+
+        /* A-Frame scene */
+        a-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Instructions Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="heart-icon">💕</div>
+        <h1>AR Valentine's Card</h1>
+        <p>A special message awaits you...</p>
+        
+        <div class="instructions">
+            <li>Allow camera access when prompted</li>
+            <li>Point camera at the HIRO marker on the card</li>
+            <li>Watch the magic appear! ✨</li>
+        </div>
+        
+        <button class="start-btn" onclick="startAR()">Start AR Experience 📱</button>
+        
+        <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.7;">
+            Or <a href="index.html" style="color: #ff6b9d;">view non-AR version</a>
+        </p>
+    </div>
+
+    <!-- Scan hint -->
+    <div class="scan-hint" id="scanHint">📷 Point camera at the Valentine's card</div>
+
+    <!-- Music button -->
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        🎵 Play Our Song
+    </button>
+
+    <!-- Fallback button -->
+    <button class="fallback-btn" id="fallbackBtn" onclick="window.location.href='index.html'">
+        View 3D Version Instead
+    </button>
+
+    <!-- Audio -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="song/就是会喜欢你.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- A-Frame + AR.js (uses HIRO marker - no custom file needed!) -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <script>
+        let arStarted = false;
+        let isPlaying = false;
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        
+        function startAR() {
+            document.getElementById('overlay').classList.add('hidden');
+            document.getElementById('scanHint').classList.add('visible');
+            document.getElementById('musicBtn').classList.add('visible');
+            document.getElementById('fallbackBtn').classList.add('visible');
+            
+            if (!arStarted) {
+                initARScene();
+                arStarted = true;
+            }
+        }
+        
+        function initARScene() {
+            // Create the AR scene with AR.js (uses HIRO marker)
+            const sceneEl = document.createElement('a-scene');
+            sceneEl.setAttribute('embedded', '');
+            sceneEl.setAttribute('arjs', 'sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;');
+            sceneEl.setAttribute('renderer', 'logarithmicDepthBuffer: true; colorManagement: true;');
+            sceneEl.setAttribute('vr-mode-ui', 'enabled: false');
+            
+            // HIRO marker - most reliable pattern marker
+            const marker = document.createElement('a-marker');
+            marker.setAttribute('preset', 'hiro');
+            marker.setAttribute('smooth', 'true');
+            marker.setAttribute('smoothCount', '5');
+            marker.setAttribute('smoothTolerance', '0.01');
+            marker.setAttribute('smoothThreshold', '5');
+            
+            // Events when marker is found/lost
+            marker.addEventListener('markerFound', () => {
+                document.getElementById('scanHint').textContent = '💕 Love found!';
+                document.getElementById('scanHint').style.background = 'rgba(233, 30, 99, 0.9)';
+            });
+            
+            marker.addEventListener('markerLost', () => {
+                document.getElementById('scanHint').textContent = '📷 Point at the HIRO marker';
+                document.getElementById('scanHint').style.background = 'rgba(0, 0, 0, 0.7)';
+            });
+            
+            // ======== AR CONTENT ========
+            
+            // Big pulsing heart at top
+            const bigHeart = document.createElement('a-text');
+            bigHeart.setAttribute('value', '💕');
+            bigHeart.setAttribute('position', '0 1.5 0');
+            bigHeart.setAttribute('scale', '5 5 5');
+            bigHeart.setAttribute('align', 'center');
+            bigHeart.setAttribute('animation', 'property: scale; from: 4.5 4.5 4.5; to: 5.5 5.5 5.5; dur: 700; easing: easeInOutSine; loop: true; dir: alternate');
+            marker.appendChild(bigHeart);
+            
+            // "I LOVE YOU" text
+            const loveText = document.createElement('a-text');
+            loveText.setAttribute('value', 'I LOVE YOU');
+            loveText.setAttribute('position', '0 0.6 0');
+            loveText.setAttribute('color', '#ff6b9d');
+            loveText.setAttribute('scale', '1.2 1.2 1.2');
+            loveText.setAttribute('align', 'center');
+            loveText.setAttribute('animation', 'property: position; to: 0 0.7 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
+            marker.appendChild(loveText);
+            
+            // "YIWEN!" text (sky blue)
+            const nameText = document.createElement('a-text');
+            nameText.setAttribute('value', 'YIWEN!');
+            nameText.setAttribute('position', '0 0.1 0');
+            nameText.setAttribute('color', '#64b5f6');
+            nameText.setAttribute('scale', '2 2 2');
+            nameText.setAttribute('align', 'center');
+            nameText.setAttribute('animation', 'property: scale; from: 1.9 1.9 1.9; to: 2.1 2.1 2.1; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate');
+            marker.appendChild(nameText);
+            
+            // Code text
+            const codeText = document.createElement('a-text');
+            codeText.setAttribute('value', 'while(true) { love(you); }');
+            codeText.setAttribute('position', '0 -0.4 0');
+            codeText.setAttribute('color', '#4fc3f7');
+            codeText.setAttribute('scale', '0.5 0.5 0.5');
+            codeText.setAttribute('align', 'center');
+            marker.appendChild(codeText);
+            
+            // Happy Valentine's
+            const subtitle = document.createElement('a-text');
+            subtitle.setAttribute('value', 'Happy Valentines Day');
+            subtitle.setAttribute('position', '0 -0.8 0');
+            subtitle.setAttribute('color', '#ffffff');
+            subtitle.setAttribute('scale', '0.4 0.4 0.4');
+            subtitle.setAttribute('align', 'center');
+            marker.appendChild(subtitle);
+            
+            // Floating hearts in a circle
+            const heartPositions = [
+                [-1.0, 1.2, 0], [1.0, 1.2, 0],
+                [-1.3, 0.5, 0], [1.3, 0.5, 0],
+                [-1.2, -0.2, 0], [1.2, -0.2, 0],
+                [-0.8, -0.6, 0], [0.8, -0.6, 0]
+            ];
+            
+            heartPositions.forEach((pos, i) => {
+                const heart = document.createElement('a-text');
+                heart.setAttribute('value', '❤');
+                heart.setAttribute('position', `${pos[0]} ${pos[1]} ${pos[2]}`);
+                heart.setAttribute('color', i % 2 === 0 ? '#ff6b9d' : '#ff4081');
+                heart.setAttribute('scale', '1.2 1.2 1.2');
+                heart.setAttribute('align', 'center');
+                heart.setAttribute('animation', `property: position; to: ${pos[0]} ${pos[1] + 0.15} ${pos[2]}; dur: ${1200 + i * 150}; easing: easeInOutSine; loop: true; dir: alternate`);
+                heart.setAttribute('animation__rotate', `property: rotation; to: 0 360 0; dur: ${4000 + i * 500}; easing: linear; loop: true`);
+                marker.appendChild(heart);
+            });
+            
+            // Sparkles around
+            for (let i = 0; i < 10; i++) {
+                const sparkle = document.createElement('a-text');
+                const x = (Math.random() - 0.5) * 2.5;
+                const y = Math.random() * 2 - 0.5;
+                sparkle.setAttribute('value', '✨');
+                sparkle.setAttribute('position', `${x} ${y} 0`);
+                sparkle.setAttribute('scale', '0.6 0.6 0.6');
+                sparkle.setAttribute('align', 'center');
+                sparkle.setAttribute('animation', `property: position; to: ${x} ${y + 0.25} 0; dur: ${1500 + Math.random() * 1500}; easing: easeInOutSine; loop: true; dir: alternate`);
+                sparkle.setAttribute('animation__opacity', `property: opacity; from: 0.4; to: 1; dur: ${800 + Math.random() * 800}; loop: true; dir: alternate`);
+                marker.appendChild(sparkle);
+            }
+            
+            sceneEl.appendChild(marker);
+            
+            // Camera
+            const camera = document.createElement('a-entity');
+            camera.setAttribute('camera', '');
+            sceneEl.appendChild(camera);
+            
+            document.body.appendChild(sceneEl);
+        }
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerHTML = '🎵 Play Our Song';
+                musicBtn.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                music.play().then(() => {
+                    musicBtn.innerHTML = '🎵 Playing...';
+                    musicBtn.classList.add('playing');
+                    isPlaying = true;
+                }).catch(err => {
+                    console.log('Audio error:', err);
+                    musicBtn.innerHTML = '🎵 Tap Again';
+                });
+            }
+        }
+    </script>
+</body>
+</html>

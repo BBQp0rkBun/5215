@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Print Your AR Valentine Card 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 2;
+        }
+        
+        .print-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+        }
+        
+        .print-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Printable card area */
+        .card-container {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            border: 3px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            background: #fff;
+            color: #333;
+        }
+        
+        .card-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        
+        .marker-container {
+            margin: 20px auto;
+            max-width: 300px;
+        }
+        
+        .marker-container img {
+            width: 100%;
+            border: 2px solid #e91e63;
+        }
+        
+        .marker-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .card-message {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .card-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #64b5f6;
+            margin: 15px 0;
+        }
+        
+        .card-footer {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 20px;
+            border-top: 1px dashed #ddd;
+            padding-top: 15px;
+        }
+        
+        .qr-placeholder {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #ccc;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #999;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container > *:not(.card-container) {
+                display: none;
+            }
+            
+            .card-container {
+                margin: 0;
+                padding: 0;
+                border-radius: 0;
+            }
+            
+            .card {
+                border: 2px solid #e91e63;
+                page-break-inside: avoid;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💕 Print Your AR Valentine Card 💕</h1>
+        <p class="subtitle">Create a magical AR experience for Yiwen!</p>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li>Click "Print Card" below to print the Valentine card</li>
+                <li>Cut along the dashed border</li>
+                <li>Give the card to Yiwen 💕</li>
+                <li>Have them visit <strong>your-github-username.github.io/5215/ar.html</strong></li>
+                <li>Point phone camera at the HIRO marker on the card</li>
+                <li>Watch the magic! ✨</li>
+            </ol>
+        </div>
+        
+        <button class="print-btn" onclick="window.print()">🖨️ Print Card</button>
+        
+        <!-- Printable Card -->
+        <div class="card-container">
+            <div class="card">
+                <div class="card-title">💕 Happy Valentine's Day 💕</div>
+                
+                <!-- HIRO Marker -->
+                <div class="marker-container">
+                    <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="HIRO AR Marker">
+                    <p class="marker-label">✨ Point your phone camera here for AR magic! ✨</p>
+                </div>
+                
+                <div class="card-message">
+                    My love for you is like an<br>
+                    <strong style="font-family: monospace; color: #4fc3f7;">while(true) { love++; }</strong><br>
+                    infinite loop — it never ends! 💕
+                </div>
+                
+                <div class="card-name">To: YIWEN 💙</div>
+                
+                <div class="card-footer">
+                    <p>Scan the QR code or visit:</p>
+                    <p><strong>https://BBQp0rkBun.github.io/5215/ar.html</strong></p>
+                    <div class="qr-placeholder">
+                        (Add QR code here - use any QR generator)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
