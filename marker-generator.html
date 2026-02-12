@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Generate Custom AR Marker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        
+        h1 { color: #ff6b9d; margin-bottom: 30px; }
+        
+        .step {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        .step h3 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+        
+        .step a {
+            color: #64b5f6;
+            font-weight: bold;
+        }
+        
+        .marker-preview {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        
+        .marker-preview img {
+            width: 300px;
+            height: 300px;
+        }
+        
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        ol {
+            line-height: 2;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>💕 Create Your Custom "LOVE" Marker 💕</h1>
+    
+    <div class="marker-preview">
+        <img src="markers/love-marker.svg" alt="LOVE Marker">
+        <p style="color: #333; margin-top: 10px;">Your custom LOVE marker</p>
+    </div>
+    
+    <div class="step">
+        <h3>Step 1: Generate the Pattern File</h3>
+        <ol>
+            <li>Open the <a href="https://ar-js-org.github.io/AR.js/three.js/examples/marker-training/examples/generator.html" target="_blank">AR.js Marker Training Tool</a></li>
+            <li>Click "Upload" and select your marker image</li>
+            <li>Use this image: <code>markers/love-marker.svg</code> (or take a screenshot of it)</li>
+            <li>Click "Download Marker" to get the <code>.patt</code> file</li>
+            <li>Save it as <code>markers/love.patt</code> in your project</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>Step 2: Download the Marker Image</h3>
+        <p>Right-click the marker above and "Save Image As" to print it or display on screen.</p>
+        <p>Or download: <a href="markers/love-marker.svg" download>love-marker.svg</a></p>
+    </div>
+    
+    <div class="step">
+        <h3>Step 3: Update ar.html</h3>
+        <p>Once you have the <code>.patt</code> file, the AR will automatically use your custom LOVE marker!</p>
+    </div>
+    
+    <p style="margin-top: 30px;">
+        <a href="ar.html" style="color: #ff6b9d;">← Back to AR Experience</a>
+    </p>
+</body>
+</html>

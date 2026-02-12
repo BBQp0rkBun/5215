@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>💕 LOVE Marker - Print Me! 💕</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        h1 { color: #ff6b9d; margin-bottom: 10px; }
+        .subtitle { margin-bottom: 30px; opacity: 0.8; }
+        
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            text-align: left;
+        }
+        
+        .instructions h3 { color: #ff6b9d; margin-bottom: 15px; }
+        .instructions ol { margin-left: 20px; line-height: 2; }
+        .instructions a { color: #64b5f6; }
+        
+        .marker-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 20px;
+        }
+        
+        /* The actual AR marker - must have thick black border */
+        .ar-marker {
+            width: 300px;
+            height: 300px;
+            border: 40px solid black;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        .ar-marker .love-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: black;
+            letter-spacing: 5px;
+        }
+        
+        .ar-marker .heart {
+            font-size: 60px;
+            margin-top: 10px;
+        }
+        
+        .ar-marker .yiwen {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        .btn.secondary { background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%); }
+        
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .no-print { display: none; }
+            .marker-container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="no-print">💕 Your Custom LOVE Marker 💕</h1>
+    <p class="subtitle no-print">This is the marker Yiwen will scan!</p>
+    
+    <!-- The marker to print/display -->
+    <div class="marker-container">
+        <div class="ar-marker" id="marker">
+            <div class="love-text">LOVE</div>
+            <div class="heart">♥</div>
+            <div class="yiwen">YIWEN</div>
+        </div>
+    </div>
+    
+    <div class="no-print">
+        <p style="margin: 20px 0;">☝️ This is your custom marker! Point your phone at it.</p>
+        
+        <button class="btn" onclick="window.print()">🖨️ Print Marker</button>
+        <a href="ar.html" class="btn secondary">📱 Open AR</a>
+    </div>
+    
+    <div class="instructions no-print">
+        <h3>🔧 One-Time Setup (to generate .patt file):</h3>
+        <ol>
+            <li>Take a <strong>screenshot</strong> of the marker above (the black-bordered square)</li>
+            <li>Go to <a href="https://ar-js-org.github.io/AR.js/three.js/examples/marker-training/examples/generator.html" target="_blank">AR.js Marker Trainer</a></li>
+            <li>Upload your screenshot</li>
+            <li>Set "Pattern Ratio" to <code>0.7</code></li>
+            <li>Click <strong>"Download Marker"</strong> → get <code>pattern-marker.patt</code></li>
+            <li>Rename it to <code>love.patt</code></li>
+            <li>Put it in the <code>markers/</code> folder</li>
+            <li>Push to GitHub and you're done! ✨</li>
+        </ol>
+    </div>
+    
+    <p class="no-print" style="margin-top: 30px; opacity: 0.7;">
+        <a href="index.html" style="color: #ff6b9d;">← Back to 3D Version</a>
+    </p>
+</body>
+</html>

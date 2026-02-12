@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- AR.js requires: thick black border + high contrast center pattern -->
+  
+  <!-- White background -->
+  <rect width="512" height="512" fill="white"/>
+  
+  <!-- Black border (required for AR.js pattern markers) -->
+  <rect x="0" y="0" width="512" height="64" fill="black"/>
+  <rect x="0" y="448" width="512" height="64" fill="black"/>
+  <rect x="0" y="0" width="64" height="512" fill="black"/>
+  <rect x="448" y="0" width="64" height="512" fill="black"/>
+  
+  <!-- Inner content area: LOVE text + hearts -->
+  <text x="256" y="220" 
+        font-family="Arial Black, sans-serif" 
+        font-size="100" 
+        font-weight="bold"
+        fill="black" 
+        text-anchor="middle">LOVE</text>
+  
+  <!-- Heart shape below -->
+  <path d="M256 380 
+           C256 380 180 320 180 270 
+           C180 240 200 220 230 220 
+           C250 220 256 240 256 240 
+           C256 240 262 220 282 220 
+           C312 220 332 240 332 270 
+           C332 320 256 380 256 380Z" 
+        fill="black"/>
+  
+  <!-- Small decorative elements for better tracking -->
+  <circle cx="120" cy="120" r="20" fill="black"/>
+  <circle cx="392" cy="120" r="20" fill="black"/>
+  <rect x="100" y="390" width="40" height="40" fill="black"/>
+  <rect x="372" y="390" width="40" height="40" fill="black"/>
+</svg>
