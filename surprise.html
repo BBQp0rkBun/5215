@@ -267,120 +267,146 @@
                 document.getElementById('scanHint').style.background = 'rgba(0, 0, 0, 0.7)';
             });
             
-            // ======== AR CONTENT - BEAUTIFUL HEARTS! ========
+            // ======== AR CONTENT - 3D HEARTS & TEXT ========
             
-            // 3D container that floats up
+            // 3D container
             const container = document.createElement('a-entity');
-            container.setAttribute('position', '0 0.5 0');
-            container.setAttribute('animation', 'property: position; to: 0 0.6 0; dur: 2000; easing: easeInOutSine; loop: true; dir: alternate');
+            container.setAttribute('position', '0 0 0');
             
-            // ===== MANY HEARTS RISING UP =====
-            // Create hearts that continuously rise and respawn
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('a-text');
-                const x = (Math.random() - 0.5) * 2.5;
-                const startY = Math.random() * 2;
-                const z = (Math.random() - 0.5) * 1;
-                const size = 0.8 + Math.random() * 1.2;
-                const duration = 3000 + Math.random() * 3000;
-                const delay = Math.random() * 3000;
+            // ===== FLOATING 3D HEART SPHERES =====
+            // Use colored spheres as "hearts" since emojis don't render well
+            const heartColors = ['#ff6b9d', '#ff4081', '#e91e63', '#f50057', '#ff80ab', '#ff1744'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('a-sphere');
+                const x = (Math.random() - 0.5) * 2;
+                const startY = Math.random() * 1.5;
+                const z = (Math.random() - 0.5) * 1.5;
+                const size = 0.05 + Math.random() * 0.08;
+                const duration = 2000 + Math.random() * 2000;
+                const delay = Math.random() * 2000;
+                const color = heartColors[Math.floor(Math.random() * heartColors.length)];
                 
-                heart.setAttribute('value', i % 3 === 0 ? '💕' : (i % 2 === 0 ? '❤️' : '💗'));
                 heart.setAttribute('position', `${x} ${startY} ${z}`);
-                heart.setAttribute('scale', `${size} ${size} ${size}`);
-                heart.setAttribute('align', 'center');
-                heart.setAttribute('opacity', '0.9');
-                // Hearts float up
-                heart.setAttribute('animation', `property: position; from: ${x} ${-0.5} ${z}; to: ${x} ${2.5} ${z}; dur: ${duration}; easing: linear; loop: true; delay: ${delay}`);
-                // Hearts spin
-                heart.setAttribute('animation__rotate', `property: rotation; to: 0 360 0; dur: ${2000 + Math.random() * 2000}; easing: linear; loop: true`);
-                // Hearts pulse
-                heart.setAttribute('animation__scale', `property: scale; from: ${size * 0.8} ${size * 0.8} ${size * 0.8}; to: ${size * 1.1} ${size * 1.1} ${size * 1.1}; dur: 500; easing: easeInOutSine; loop: true; dir: alternate; delay: ${delay}`);
+                heart.setAttribute('radius', size);
+                heart.setAttribute('color', color);
+                heart.setAttribute('material', 'shader: flat;');
+                // Float up animation
+                heart.setAttribute('animation', `property: position; from: ${x} -0.3 ${z}; to: ${x} 2 ${z}; dur: ${duration}; easing: linear; loop: true; delay: ${delay}`);
+                // Pulse
+                heart.setAttribute('animation__pulse', `property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 400; easing: easeInOutSine; loop: true; dir: alternate`);
                 container.appendChild(heart);
             }
             
-            // ===== BIG CENTER HEART =====
-            const bigHeart = document.createElement('a-text');
-            bigHeart.setAttribute('value', '💖');
-            bigHeart.setAttribute('position', '0 1.8 0.2');
-            bigHeart.setAttribute('scale', '6 6 6');
-            bigHeart.setAttribute('align', 'center');
-            bigHeart.setAttribute('animation', 'property: scale; from: 5 5 5; to: 7 7 7; dur: 600; easing: easeInOutSine; loop: true; dir: alternate');
-            bigHeart.setAttribute('animation__rotate', 'property: rotation; from: 0 -10 0; to: 0 10 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
-            container.appendChild(bigHeart);
+            // ===== BIG CENTER HEART (using two spheres + cone) =====
+            const bigHeartGroup = document.createElement('a-entity');
+            bigHeartGroup.setAttribute('position', '0 1.2 0');
+            bigHeartGroup.setAttribute('scale', '2 2 2');
+            bigHeartGroup.setAttribute('animation', 'property: scale; from: 1.8 1.8 1.8; to: 2.2 2.2 2.2; dur: 500; easing: easeInOutSine; loop: true; dir: alternate');
+            bigHeartGroup.setAttribute('animation__rotate', 'property: rotation; from: 0 -15 0; to: 0 15 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
+            
+            // Left sphere of heart
+            const leftSphere = document.createElement('a-sphere');
+            leftSphere.setAttribute('position', '-0.08 0.05 0');
+            leftSphere.setAttribute('radius', '0.1');
+            leftSphere.setAttribute('color', '#ff1744');
+            leftSphere.setAttribute('material', 'shader: flat;');
+            bigHeartGroup.appendChild(leftSphere);
+            
+            // Right sphere of heart
+            const rightSphere = document.createElement('a-sphere');
+            rightSphere.setAttribute('position', '0.08 0.05 0');
+            rightSphere.setAttribute('radius', '0.1');
+            rightSphere.setAttribute('color', '#ff1744');
+            rightSphere.setAttribute('material', 'shader: flat;');
+            bigHeartGroup.appendChild(rightSphere);
+            
+            // Bottom cone of heart
+            const heartCone = document.createElement('a-cone');
+            heartCone.setAttribute('position', '0 -0.08 0');
+            heartCone.setAttribute('rotation', '180 0 0');
+            heartCone.setAttribute('radius-bottom', '0.15');
+            heartCone.setAttribute('radius-top', '0');
+            heartCone.setAttribute('height', '0.2');
+            heartCone.setAttribute('color', '#ff1744');
+            heartCone.setAttribute('material', 'shader: flat;');
+            bigHeartGroup.appendChild(heartCone);
+            
+            container.appendChild(bigHeartGroup);
             
             // ===== "I LOVE YOU" TEXT =====
             const loveText = document.createElement('a-text');
-            loveText.setAttribute('value', '~ I LOVE YOU ~');
-            loveText.setAttribute('position', '0 0.9 0.3');
+            loveText.setAttribute('value', 'I LOVE YOU');
+            loveText.setAttribute('position', '0 0.6 0');
             loveText.setAttribute('color', '#ff6b9d');
-            loveText.setAttribute('scale', '1.5 1.5 1.5');
+            loveText.setAttribute('scale', '1.2 1.2 1.2');
             loveText.setAttribute('align', 'center');
-            loveText.setAttribute('animation', 'property: position; to: 0 1.0 0.3; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
+            loveText.setAttribute('font', 'mozillavr');
+            loveText.setAttribute('animation', 'property: position; to: 0 0.7 0; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate');
             container.appendChild(loveText);
             
-            // ===== "YIWEN!" TEXT (sky blue, bigger) =====
+            // ===== "YIWEN" TEXT (sky blue) =====
             const nameText = document.createElement('a-text');
-            nameText.setAttribute('value', '♡ YIWEN ♡');
-            nameText.setAttribute('position', '0 0.3 0.3');
+            nameText.setAttribute('value', 'YIWEN');
+            nameText.setAttribute('position', '0 0.2 0');
             nameText.setAttribute('color', '#64b5f6');
-            nameText.setAttribute('scale', '2.5 2.5 2.5');
+            nameText.setAttribute('scale', '2 2 2');
             nameText.setAttribute('align', 'center');
-            nameText.setAttribute('animation', 'property: scale; from: 2.3 2.3 2.3; to: 2.7 2.7 2.7; dur: 800; easing: easeInOutSine; loop: true; dir: alternate');
+            nameText.setAttribute('font', 'mozillavr');
+            nameText.setAttribute('animation', 'property: scale; from: 1.9 1.9 1.9; to: 2.1 2.1 2.1; dur: 800; easing: easeInOutSine; loop: true; dir: alternate');
             container.appendChild(nameText);
             
             // ===== CODE MESSAGE =====
             const codeText = document.createElement('a-text');
             codeText.setAttribute('value', 'while(true) { love++; }');
-            codeText.setAttribute('position', '0 -0.2 0.2');
+            codeText.setAttribute('position', '0 -0.1 0');
             codeText.setAttribute('color', '#4fc3f7');
-            codeText.setAttribute('scale', '0.7 0.7 0.7');
+            codeText.setAttribute('scale', '0.5 0.5 0.5');
             codeText.setAttribute('align', 'center');
+            codeText.setAttribute('font', 'mozillavr');
             container.appendChild(codeText);
             
             // ===== HAPPY VALENTINE'S =====
             const subtitle = document.createElement('a-text');
-            subtitle.setAttribute('value', '💝 Happy Valentines Day 💝');
-            subtitle.setAttribute('position', '0 -0.6 0.2');
+            subtitle.setAttribute('value', 'Happy Valentines Day');
+            subtitle.setAttribute('position', '0 -0.35 0');
             subtitle.setAttribute('color', '#ffffff');
-            subtitle.setAttribute('scale', '0.6 0.6 0.6');
+            subtitle.setAttribute('scale', '0.4 0.4 0.4');
             subtitle.setAttribute('align', 'center');
+            subtitle.setAttribute('font', 'mozillavr');
             container.appendChild(subtitle);
             
-            // ===== RING OF SPINNING HEARTS =====
-            for (let i = 0; i < 12; i++) {
-                const angle = (i / 12) * Math.PI * 2;
-                const radius = 1.5;
+            // ===== RING OF SMALL HEARTS =====
+            for (let i = 0; i < 10; i++) {
+                const angle = (i / 10) * Math.PI * 2;
+                const radius = 0.8;
                 const x = Math.cos(angle) * radius;
-                const y = 0.8 + Math.sin(angle * 2) * 0.3;
                 const z = Math.sin(angle) * radius;
+                const y = 0.5 + Math.sin(angle * 2) * 0.2;
                 
-                const heart = document.createElement('a-text');
-                heart.setAttribute('value', i % 2 === 0 ? '❤️' : '💗');
-                heart.setAttribute('position', `${x} ${y} ${z}`);
-                heart.setAttribute('scale', '1.5 1.5 1.5');
-                heart.setAttribute('align', 'center');
-                // Orbit animation
-                heart.setAttribute('animation', `property: rotation; to: 0 360 0; dur: ${6000 + i * 200}; easing: linear; loop: true`);
-                heart.setAttribute('animation__float', `property: position; to: ${x} ${y + 0.2} ${z}; dur: ${1000 + i * 100}; easing: easeInOutSine; loop: true; dir: alternate`);
-                container.appendChild(heart);
+                const orbitHeart = document.createElement('a-sphere');
+                orbitHeart.setAttribute('position', `${x} ${y} ${z}`);
+                orbitHeart.setAttribute('radius', '0.05');
+                orbitHeart.setAttribute('color', i % 2 === 0 ? '#ff6b9d' : '#ff4081');
+                orbitHeart.setAttribute('material', 'shader: flat;');
+                orbitHeart.setAttribute('animation', `property: position; to: ${x} ${y + 0.15} ${z}; dur: ${800 + i * 100}; easing: easeInOutSine; loop: true; dir: alternate`);
+                container.appendChild(orbitHeart);
             }
             
-            // ===== SPARKLE EXPLOSION =====
-            for (let i = 0; i < 25; i++) {
-                const sparkle = document.createElement('a-text');
-                const x = (Math.random() - 0.5) * 3;
-                const y = Math.random() * 2.5;
-                const z = (Math.random() - 0.5) * 1.5;
-                const size = 0.4 + Math.random() * 0.6;
+            // ===== SPARKLE PARTICLES =====
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('a-sphere');
+                const x = (Math.random() - 0.5) * 2;
+                const y = Math.random() * 1.5;
+                const z = (Math.random() - 0.5) * 1;
+                const size = 0.02 + Math.random() * 0.03;
                 
-                sparkle.setAttribute('value', i % 3 === 0 ? '✨' : (i % 2 === 0 ? '⭐' : '💫'));
                 sparkle.setAttribute('position', `${x} ${y} ${z}`);
-                sparkle.setAttribute('scale', `${size} ${size} ${size}`);
-                sparkle.setAttribute('align', 'center');
-                sparkle.setAttribute('animation', `property: position; to: ${x} ${y + 0.4} ${z}; dur: ${1500 + Math.random() * 2000}; easing: easeInOutSine; loop: true; dir: alternate`);
-                sparkle.setAttribute('animation__opacity', `property: opacity; from: 0.3; to: 1; dur: ${600 + Math.random() * 800}; loop: true; dir: alternate`);
-                sparkle.setAttribute('animation__scale', `property: scale; to: ${size * 1.3} ${size * 1.3} ${size * 1.3}; dur: ${400 + Math.random() * 400}; loop: true; dir: alternate`);
+                sparkle.setAttribute('radius', size);
+                sparkle.setAttribute('color', '#ffffff');
+                sparkle.setAttribute('material', 'shader: flat;');
+                sparkle.setAttribute('animation', `property: position; to: ${x} ${y + 0.3} ${z}; dur: ${1500 + Math.random() * 1500}; easing: easeInOutSine; loop: true; dir: alternate`);
+                sparkle.setAttribute('animation__scale', `property: scale; from: 0.5 0.5 0.5; to: 1.5 1.5 1.5; dur: ${400 + Math.random() * 400}; loop: true; dir: alternate`);
                 container.appendChild(sparkle);
             }
             

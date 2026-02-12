@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Print Valentine Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 30px;
+            color: white;
+        }
+        
+        h1 { text-align: center; color: #ff6b9d; margin-bottom: 10px; }
+        .subtitle { text-align: center; margin-bottom: 30px; opacity: 0.8; }
+        
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .print-btn:hover { transform: scale(1.05); }
+        
+        /* THE PRINTABLE CARD */
+        .card-wrapper {
+            background: white;
+            max-width: 500px;
+            margin: 30px auto;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .card {
+            border: 4px solid #e91e63;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff5f8 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Decorative hearts in corners */
+        .corner-heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b9d;
+        }
+        .corner-heart.tl { top: 10px; left: 10px; }
+        .corner-heart.tr { top: 10px; right: 10px; }
+        .corner-heart.bl { bottom: 10px; left: 10px; }
+        .corner-heart.br { bottom: 10px; right: 10px; }
+        
+        .card-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+        
+        .card-to {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: #64b5f6;
+            margin-bottom: 20px;
+        }
+        
+        /* The marker area - HIRO hidden in decorative frame */
+        .marker-frame {
+            display: inline-block;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffcdd2 0%, #f8bbd9 100%);
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .marker-frame::before {
+            content: "✨ Point phone here ✨";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e91e63;
+            color: white;
+            font-size: 0.6rem;
+            padding: 3px 10px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        
+        .marker-frame img {
+            width: 180px;
+            height: 180px;
+            border: 3px solid #e91e63;
+            border-radius: 10px;
+        }
+        
+        /* Decorative hearts around marker */
+        .heart-ring {
+            position: absolute;
+            font-size: 18px;
+        }
+        
+        .card-message {
+            font-size: 1rem;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .card-code {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #4fc3f7;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.8rem;
+            margin: 10px 0;
+        }
+        
+        .card-footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #999;
+            border-top: 1px dashed #ddd;
+            padding-top: 15px;
+        }
+        
+        .card-footer strong {
+            color: #e91e63;
+            font-size: 0.7rem;
+            word-break: break-all;
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        .instructions h3 { color: #ff6b9d; margin-bottom: 10px; }
+        .instructions ol { margin-left: 20px; line-height: 2; }
+        
+        /* Print styles */
+        @media print {
+            body { background: white !important; padding: 0; }
+            .no-print { display: none !important; }
+            .card-wrapper { margin: 0; padding: 0; box-shadow: none; }
+            .card { border: 3px solid #e91e63; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="no-print">💕 Print This Card for Yiwen 💕</h1>
+    <p class="subtitle no-print">Give him this card, then send him the secret link!</p>
+    
+    <button class="print-btn no-print" onclick="window.print()">🖨️ Print Card</button>
+    
+    <!-- THE CARD -->
+    <div class="card-wrapper">
+        <div class="card">
+            <!-- Corner decorations -->
+            <span class="corner-heart tl">💕</span>
+            <span class="corner-heart tr">💕</span>
+            <span class="corner-heart bl">💗</span>
+            <span class="corner-heart br">💗</span>
+            
+            <div class="card-title">Happy Valentine's Day!</div>
+            
+            <div class="card-to">♡ YIWEN ♡</div>
+            
+            <!-- The AR marker disguised as part of the card -->
+            <div class="marker-frame">
+                <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="Magic Window">
+            </div>
+            
+            <div class="card-message">
+                My love for you is like an infinite loop...<br>
+                <strong style="color: #e91e63;">It never ends! 💕</strong>
+            </div>
+            
+            <div class="card-code">while(true) { love(you); }</div>
+            
+            <div class="card-footer">
+                <p>📱 Scan the QR code or visit:</p>
+                <strong>bbqp0rkbun.github.io/5215/surprise.html</strong>
+            </div>
+        </div>
+    </div>
+    
+    <div class="instructions no-print">
+        <h3>📋 How to use:</h3>
+        <ol>
+            <li>Print this card</li>
+            <li>Give it to Yiwen 💕</li>
+            <li>Tell him to visit the link on his phone</li>
+            <li>He points his camera at the card → Magic! ✨</li>
+        </ol>
+    </div>
+    
+    <p class="no-print" style="text-align: center; margin-top: 30px; opacity: 0.6; font-size: 0.8rem;">
+        The "magic window" on the card is what triggers the AR surprise!
+    </p>
+</body>
+</html>
